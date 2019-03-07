@@ -4,7 +4,7 @@ This is a project to analysis Alibaba trace data. The schema is in (https://gith
 
 The source code is based on the spring boot MongoDB, which is easy to refactor ( https://github.com/spring-guides/gs-accessing-data-mongodb.git ).
 
-Installing MongoDB ( https://www.cnblogs.com/weschen/p/8213746.html ).
+Installing MongoDB ( https://www.cnblogs.com/weschen/p/8213746.html  https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/?_ga=2.110920069.1240577217.1551961329-1838636681.1551961329).
 
 Repository and MongoDB template are the 2 way to deal with DB ( https://www.cnblogs.com/atliwen/p/6644627.html ).
 
