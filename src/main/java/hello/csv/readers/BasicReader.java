@@ -1,5 +1,7 @@
 package hello.csv.readers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -18,16 +20,6 @@ public class BasicReader {
     public static String machineUsage = "E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\machine_usage.csv";
 
     // for Machines:
-    public static String machineId = "machine_id";
-    public static String timeStamp = "time_stamp";
-    public static String disater1 = "disaster_level_1";
-    public static String disater2 = "disaster_level_2";
-    public static String cpu = "cpu_num";
-    public static String mem = "mem_size";
-
-    //map in array key is timestamp:
-    public static String statuses = "statuses";
-    public static String usages = "usages";
 
     // for Containers:
     public static String containerId = "container_id";
@@ -72,8 +64,7 @@ public class BasicReader {
 //        public int mem_size;
 //        public String[] ;
 //    }
-    protected TreeMap<String,Object> machines = new TreeMap<>();
-    protected Map<String,Map[]> machineStatuses = new TreeMap<>();
+
     protected Map<String,Map[]> machineSUsage = new TreeMap<>();
 
     protected TreeMap<String,Object> tasks = new TreeMap<>();
@@ -82,8 +73,10 @@ public class BasicReader {
     protected TreeMap<String,Object> applications = new TreeMap<>();
     protected TreeMap<String,Object> containers = new TreeMap<>();
 
+    private static Logger log = LoggerFactory.getLogger(BasicReader.class);
 
-    public void operateEachLine(String line){
+
+    public void operateEachLine(String[] line){
 
     }
 
@@ -91,17 +84,22 @@ public class BasicReader {
 
     }
 
+    public void init(){
+
+    }
+
     public void readLine(String fileName,long bulkCount){
+        long size = 0;
         try {
             FileReader fr = new FileReader(fileName);
             BufferedReader bf = new BufferedReader(fr);
             String str;
-            long size = 0;
             while ((str = bf.readLine()) != null) {
-                operateEachLine(str);
+                operateEachLine(str.split(","));
                 size++;
                 if(size%bulkCount == 0){
                     bulkLines();
+                    log.info("Lines' size: "+size);
                 }
             }
             bf.close();
@@ -109,6 +107,12 @@ public class BasicReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        log.info("lines' total size:"+size);
+    }
+
+    public void readFile(String fileName,long bulkCount){
+        init();
+        readLine(fileName,bulkCount);
     }
 
 
