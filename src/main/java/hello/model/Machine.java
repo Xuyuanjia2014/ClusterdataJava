@@ -16,8 +16,13 @@ public class Machine {
     private String mem_size;
 
     //map in array key is timestamp:
-    private List<StatusInt> statuses = new ArrayList<>();
-    private List<UsageInt> usages = new ArrayList<>();
+    private List<StatusInt> statuses;
+    private List<UsageInt> usages;
+
+    public Machine(){
+        this.statuses = new ArrayList<>();
+        this.usages = new ArrayList<>();
+    }
 
     public String getMachine_id() {
         return machine_id;

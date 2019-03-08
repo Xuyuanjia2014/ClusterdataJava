@@ -4,6 +4,7 @@ import hello.model.Machine;
 import hello.model.StatusInt;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
 import java.util.*;
@@ -11,16 +12,22 @@ import java.util.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
+@Component
 public class MachineMetaReader extends BasicReader {
     protected Set<String> ids = new HashSet<>();
 
     protected Map<String,Machine> currentMachines = new HashMap<>();
 
     @Override
+    public void init(){
+        mongoTemplate.dropCollection(Machine.class);
+    }
+
+    @Override
     public void operateEachLine(String[] line){
         Machine m = null;
         if(currentMachines.containsKey(line[0])){
-            m = currentMachines.get(m);
+            m = currentMachines.get(line[0]);
         }
         else{
             m = new Machine();
@@ -54,7 +61,7 @@ public class MachineMetaReader extends BasicReader {
         for(Machine m: updateMachines){
             Update update = new Update();
             update.addToSet("statuses");
-            ops.updateOne(query(where("id").is(m.getMachine_id())),update);
+            ops.updateOne(query(where("machine_id").is(m.getMachine_id())),update);
         }
         ops.execute();
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -17,14 +18,15 @@ public class Application implements CommandLineRunner {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Override
+
 	public void run(String... args) throws Exception {
+		System.out.println("ApplicationContextProvider.getApplicationContext():"+ApplicationContextProvider.getApplicationContext());
 		this.readMachineMeta();
 	}
 
 	private void readMachineMeta(){
-		BasicReader br = new MachineMetaReader();
-		br.readFile(BasicReader.machineMeta,10000000);
+		BasicReader br = ApplicationContextProvider.getBean(MachineMetaReader.class);
+		br.readFile(BasicReader.machineMeta,17592);
 	}
 
 }
