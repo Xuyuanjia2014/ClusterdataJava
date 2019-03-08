@@ -1,6 +1,6 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://192.168.99.100:27017/Test
-      password: guest
-      username: guest
+      uri: mongodb://127.0.0.1:27017/admin
+#      password: guest
+#      username: guest
