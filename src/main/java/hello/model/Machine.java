@@ -1,12 +1,16 @@
 package hello.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Document(collection="machine")
 public class Machine {
     @Id
+    @Field("machine_id")
     private String machine_id;
 
     //private String time_stamp;
@@ -16,7 +20,9 @@ public class Machine {
     private String mem_size;
 
     //map in array key is timestamp:
+    @Field("statuses")
     private List<StatusInt> statuses;
+    @Field("usages")
     private List<UsageInt> usages;
 
     public Machine(){
@@ -79,4 +85,5 @@ public class Machine {
     public void setUsages(List<UsageInt> usages) {
         this.usages = usages;
     }
+
 }

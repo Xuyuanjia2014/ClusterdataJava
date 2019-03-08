@@ -57,15 +57,13 @@ public class BasicReader {
     @Autowired
     protected MongoTemplate mongoTemplate;
 
-//    public class Machine {
-//        public String ;
-//        public int ;
-//        public String ;
-//        public String disaster_level_2;
-//        public int ;
-//        public int mem_size;
-//        public String[] ;
-//    }
+    public MongoTemplate getMongoTemplate() {
+        return mongoTemplate;
+    }
+
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     protected Map<String,Map[]> machineSUsage = new TreeMap<>();
 
@@ -87,7 +85,16 @@ public class BasicReader {
     }
 
     public void init(){
+        log.info("Init is nothing to do.");
+    }
 
+    protected String compactPartString(String[] line, int s, int e){
+        StringBuffer sb = new StringBuffer("");
+        for(int i= s;i<e;i++){
+            sb.append(line[i]+",");
+        }
+        sb.append(line[e]);
+        return sb.toString();
     }
 
     public void readLine(String fileName,long bulkCount){
@@ -106,6 +113,8 @@ public class BasicReader {
             }
             bf.close();
             fr.close();
+            log.info("To do the rest:");
+            bulkLines();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,13 +124,5 @@ public class BasicReader {
     public void readFile(String fileName,long bulkCount){
         init();
         readLine(fileName,bulkCount);
-    }
-
-    public MongoTemplate getMongoTemplate() {
-        return mongoTemplate;
-    }
-
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.Mac;
 import java.util.*;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -43,6 +42,9 @@ public class MachineMetaReader extends BasicReader {
 
     @Override
     public void bulkLines(){
+        if(currentMachines.isEmpty()){
+            return;
+        }
         List<Machine> insertMachines = new ArrayList<>();
         List<Machine> updateMachines = new ArrayList<>();
         for(String key: currentMachines.keySet()){
@@ -60,8 +62,8 @@ public class MachineMetaReader extends BasicReader {
         }
         for(Machine m: updateMachines){
             Update update = new Update();
-            update.addToSet("statuses");
-            ops.updateOne(query(where("machine_id").is(m.getMachine_id())),update);
+            update.addToSet("statuses",m.getStatuses());
+            ops.updateOne(query(where("_id").is(m.getMachine_id())),update);
         }
         ops.execute();
 
