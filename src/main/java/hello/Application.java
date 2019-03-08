@@ -3,18 +3,17 @@ package hello;
 import hello.csv.readers.BasicReader;
 import hello.csv.readers.MachineMetaReader;
 import hello.csv.readers.MachineUsageReader;
+import hello.repository.MachineRepository;
 import hello.util.MongoDBHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
-
-	@Autowired
-	private CustomerRepository repository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -23,8 +22,8 @@ public class Application implements CommandLineRunner {
 
 	public void run(String... args) throws Exception {
 		//this.readMachineMeta();
-		//this.readMachineUsage();
-		this.checkMachineUsage();
+		this.readMachineUsage();
+		//this.checkMachineUsage();
 	}
 
 	private void readMachineMeta(){
@@ -34,13 +33,13 @@ public class Application implements CommandLineRunner {
 
 	private void readMachineUsage(){
 		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
-		br.readFile(BasicReader.machineUsage,1000000);
+		br.readFile(BasicReader.machineUsage,5000000);
 	}
 
 	private void checkMachineUsage(){
 		MongoDBHelper mh = ApplicationContextProvider.getBean(MongoDBHelper.class);
 		//m_2123
-		mh.checkOneMachine("m_2003");
+		mh.findOneMachines("m_2151");
 	}
 
 }

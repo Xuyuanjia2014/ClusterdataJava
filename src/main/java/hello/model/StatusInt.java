@@ -1,8 +1,5 @@
 package hello.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 public class StatusInt {
     private int timestamp;
     private String status;

@@ -30,11 +30,11 @@ public class MachineMetaReader extends BasicReader {
         }
         else{
             m = new Machine();
-            m.setDisaster_level_1(line[2]);
-            m.setDisaster_level_2(line[3]);
-            m.setCpu_num(line[4]);
-            m.setMem_size(line[5]);
-            m.setMachine_id(line[0]);
+            m.setDisasterLevel1(line[2]);
+            m.setDisasterLevel2(line[3]);
+            m.setCpuNum(line[4]);
+            m.setMemSize(line[5]);
+            m.setMachineId(line[0]);
             this.currentMachines.put(line[0],m);
         }
         m.getStatuses().add(new StatusInt(Integer.valueOf(line[1]),line[6]));
@@ -62,8 +62,8 @@ public class MachineMetaReader extends BasicReader {
         }
         for(Machine m: updateMachines){
             Update update = new Update();
-            update.addToSet("statuses",m.getStatuses());
-            ops.updateOne(query(where("_id").is(m.getMachine_id())),update);
+            update.push("statuses",m.getStatuses().toArray());
+            ops.updateOne(query(where("_id").is(m.getMachineId())),update);
         }
         ops.execute();
 

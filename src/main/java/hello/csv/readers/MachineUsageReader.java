@@ -36,9 +36,8 @@ public class MachineUsageReader extends BasicReader {
         }
         BulkOperations ops = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED,Machine.class);
         for(String key: mUsages.keySet()){
-            System.out.println("machine:"+key+"size:"+mUsages.get(key).size());
             Update update = new Update();
-            update.addToSet("usages",mUsages.get(key));
+            update.push("usages",mUsages.get(key).toArray());
             ops.updateOne(query(where("_id").is(key)),update);
         }
         ops.execute();

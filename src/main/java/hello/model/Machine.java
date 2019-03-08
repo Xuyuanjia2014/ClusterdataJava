@@ -1,28 +1,25 @@
 package hello.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection="machine")
 public class Machine {
     @Id
-    @Field("machine_id")
-    private String machine_id;
+    private String machineId;
 
     //private String time_stamp;
-    private String disaster_level_1;
-    private String disaster_level_2;
-    private String cpu_num;
-    private String mem_size;
+    private String disasterLevel1;
+    private String disasterLevel2;
+    private String cpuNum;
+    private String memSize;
 
     //map in array key is timestamp:
-    @Field("statuses")
+
     private List<StatusInt> statuses;
-    @Field("usages")
+    
     private List<UsageInt> usages;
 
     public Machine(){
@@ -30,44 +27,44 @@ public class Machine {
         this.usages = new ArrayList<>();
     }
 
-    public String getMachine_id() {
-        return machine_id;
+    public String getMachineId() {
+        return machineId;
     }
 
-    public void setMachine_id(String machine_id) {
-        this.machine_id = machine_id;
+    public void setMachineId(String machineId) {
+        this.machineId = machineId;
     }
 
-    public String getDisaster_level_1() {
-        return disaster_level_1;
+    public String getDisasterLevel1() {
+        return disasterLevel1;
     }
 
-    public void setDisaster_level_1(String disaster_level_1) {
-        this.disaster_level_1 = disaster_level_1;
+    public void setDisasterLevel1(String disasterLevel1) {
+        this.disasterLevel1 = disasterLevel1;
     }
 
-    public String getDisaster_level_2() {
-        return disaster_level_2;
+    public String getDisasterLevel2() {
+        return disasterLevel2;
     }
 
-    public void setDisaster_level_2(String disaster_level_2) {
-        this.disaster_level_2 = disaster_level_2;
+    public void setDisasterLevel2(String disasterLevel2) {
+        this.disasterLevel2 = disasterLevel2;
     }
 
-    public String getCpu_num() {
-        return cpu_num;
+    public String getCpuNum() {
+        return cpuNum;
     }
 
-    public void setCpu_num(String cpu_num) {
-        this.cpu_num = cpu_num;
+    public void setCpuNum(String cpuNum) {
+        this.cpuNum = cpuNum;
     }
 
-    public String getMem_size() {
-        return mem_size;
+    public String getMemSize() {
+        return memSize;
     }
 
-    public void setMem_size(String mem_size) {
-        this.mem_size = mem_size;
+    public void setMemSize(String memSize) {
+        this.memSize = memSize;
     }
 
     public List<StatusInt> getStatuses() {
@@ -85,5 +82,4 @@ public class Machine {
     public void setUsages(List<UsageInt> usages) {
         this.usages = usages;
     }
-
 }
