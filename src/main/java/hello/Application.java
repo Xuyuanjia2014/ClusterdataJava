@@ -22,8 +22,9 @@ public class Application implements CommandLineRunner {
 
 	public void run(String... args) throws Exception {
 		//this.readMachineMeta();
-		this.readMachineUsage();
+		//this.readMachineUsage();
 		//this.checkMachineUsage();
+		this.checkTaskMap();
 	}
 
 	private void readMachineMeta(){
@@ -42,4 +43,9 @@ public class Application implements CommandLineRunner {
 		mh.findOneMachines("m_2151");
 	}
 
+	private void checkTaskMap(){
+		MongoDBHelper mh = ApplicationContextProvider.getBean(MongoDBHelper.class);
+		//addTaskMap
+		mh.addTaskMap();
+	}
 }
