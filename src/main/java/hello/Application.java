@@ -24,8 +24,8 @@ public class Application implements CommandLineRunner {
 		//this.readMachineMeta();
 		//this.readMachineUsage();
 		//this.checkMachineUsage();
-		//this.checkTaskMap();
-		this.readTaskMeta();
+		this.checkTaskMap();
+//		this.readTaskMeta();
 //		this.readInstanceUsage();
 //		this.readContainerMeta();
 //		this.readContainerUsage();

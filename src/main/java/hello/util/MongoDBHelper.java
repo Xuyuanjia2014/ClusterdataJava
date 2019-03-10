@@ -96,7 +96,7 @@ public class MongoDBHelper {
         for(int j=0;j<3;j++){
             instanceUsage.add("usa"+j);
         }
-        up2.push("instances.instance0").each(instanceUsage.toArray());
+        up2.push("instances.instance100").each(instanceUsage.toArray());
         ops.updateOne(query(where("_id").is("fuck1")),up2);
 
         ops.execute();

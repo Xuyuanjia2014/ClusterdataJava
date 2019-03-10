@@ -34,7 +34,7 @@ public class ContainerMetaReader extends BasicReader {
             container.setStatuses(new ArrayList<>());
             this.currentContainers.put(line[0],container);
         }
-        container.getStatuses().add(container.new Container.CStatus(Integer.valueOf(line[3]),line[7],this.compactPartString(line,4,6),line[1]));
+        container.getStatuses().add(container.new CStatus(Integer.valueOf(line[3]),line[7],this.compactPartString(line,4,6),line[1]));
     }
 
     @Override

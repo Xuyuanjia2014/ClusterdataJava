@@ -34,7 +34,7 @@ public class ContainerUsageReader extends BasicReader {
         else{
             cList = new ArrayList<>(100);
         }
-        cList.add(tempC.new Container.CUsage(Integer.valueOf(line[2]),line[1],this.compactPartString(line,3,10)));
+        cList.add(tempC.new CUsage(Integer.valueOf(line[2]),line[1],this.compactPartString(line,3,10)));
         cUsages.put(line[0],cList);
     }
 
