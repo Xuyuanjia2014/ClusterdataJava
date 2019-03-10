@@ -24,7 +24,11 @@ public class Application implements CommandLineRunner {
 		//this.readMachineMeta();
 		//this.readMachineUsage();
 		//this.checkMachineUsage();
-		this.checkTaskMap();
+		//this.checkTaskMap();
+		this.readTaskMeta();
+//		this.readInstanceUsage();
+//		this.readContainerMeta();
+//		this.readContainerUsage();
 	}
 
 	private void readMachineMeta(){
@@ -47,5 +51,25 @@ public class Application implements CommandLineRunner {
 		MongoDBHelper mh = ApplicationContextProvider.getBean(MongoDBHelper.class);
 		//addTaskMap
 		mh.addTaskMap();
+	}
+
+	private void readTaskMeta(){
+		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
+		br.readFile(BasicReader.batchTask,100000);
+	}
+
+	private void readInstanceUsage(){
+		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
+		br.readFile(BasicReader.batchInstance,5000000);
+	}
+
+	private void readContainerMeta(){
+		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
+		br.readFile(BasicReader.containerMeta,100000);
+	}
+
+	private void readContainerUsage(){
+		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
+		br.readFile(BasicReader.containerUsage,5000000);
 	}
 }
