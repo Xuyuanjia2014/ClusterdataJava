@@ -33,6 +33,17 @@ public class Container {
         @Field
         private String machineId;
 
+        public CStatus(){
+
+        }
+
+        public CStatus(int timestamp, String status, String plansR, String machineId) {
+            this.timestamp = timestamp;
+            this.status = status;
+            this.plansR = plansR;
+            this.machineId = machineId;
+        }
+
         public int getTimestamp() {
             return timestamp;
         }
@@ -75,6 +86,16 @@ public class Container {
 
         @Field
         private String actualsR;
+
+        public CUsage(){
+
+        }
+
+        public CUsage(int timestamp, String machineId, String actualsR) {
+            this.timestamp = timestamp;
+            this.machineId = machineId;
+            this.actualsR = actualsR;
+        }
 
         public int getTimestamp() {
             return timestamp;
