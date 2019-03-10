@@ -1,7 +1,6 @@
 package hello.csv.readers;
 
-import hello.model.Machine;
-import hello.model.StatusInt;
+import hello.model.Task;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -13,62 +12,64 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 @Component
 public class TaskMetaReader extends BasicReader {
-    protected Set<String> ids = new HashSet<>();
+    protected Set<String> jobTasks = new HashSet<>();
 
-    protected Map<String,Machine> currentMachines = new HashMap<>();
+    protected Map<String, Task> currentTasks = new HashMap<>();
 
     @Override
     public void init(){
-        mongoTemplate.dropCollection(Machine.class);
+        mongoTemplate.dropCollection(Task.class);
     }
 
     @Override
     public void operateEachLine(String[] line){
-        Machine m = null;
-        if(currentMachines.containsKey(line[0])){
-            m = currentMachines.get(line[0]);
+        Task t = null;
+        if(currentTasks.containsKey(line[3]+","+line[0])){
+            t= currentTasks.get(line[0]);
         }
         else{
-            m = new Machine();
-            m.setDisasterLevel1(line[2]);
-            m.setDisasterLevel2(line[3]);
-            m.setCpuNum(line[4]);
-            m.setMemSize(line[5]);
-            m.setMachineId(line[0]);
-            this.currentMachines.put(line[0],m);
+            t = new Task();
+            t.setInsNum(Integer.valueOf(line[1]));
+            t.setTaskId(line[3]+","+line[0]);
+            t.setTaskType(line[2]);
+            List<String> sta = new ArrayList<>();
+            sta.add(this.compactPartString(line,4,8));
+            t.setStatuses(sta);
+            this.currentTasks.put(t.getTaskId(),t);
+            return;
         }
-        m.getStatuses().add(new StatusInt(Integer.valueOf(line[1]),line[6]));
+        t.getStatuses().add(this.compactPartString(line,4,8));
     }
 
     @Override
     public void bulkLines(){
-        if(currentMachines.isEmpty()){
+        if(currentTasks.isEmpty()){
             return;
         }
-        List<Machine> insertMachines = new ArrayList<>();
-        List<Machine> updateMachines = new ArrayList<>();
-        for(String key: currentMachines.keySet()){
-            if(!ids.contains(key)){
-                insertMachines.add(currentMachines.get(key));
-                ids.add(key);
+        List<Task> insertTasks = new ArrayList<>();
+        List<Task> updateTasks = new ArrayList<>();
+        for(String key: currentTasks.keySet()){
+            if(!jobTasks.contains(key)){
+                insertTasks.add(currentTasks.get(key));
+                jobTasks.add(key);
             }
             else{
-                updateMachines.add(currentMachines.get(key));
+                updateTasks.add(currentTasks.get(key));
             }
         }
-        BulkOperations ops = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED,Machine.class);
-        for(Machine m : insertMachines){
+        BulkOperations ops = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED,Task.class);
+        for(Task m : insertTasks){
             ops.insert(m);
         }
-        for(Machine m: updateMachines){
+        for(Task m: updateTasks){
             Update update = new Update();
-            update.push("statuses",m.getStatuses().toArray());
-            ops.updateOne(query(where("_id").is(m.getMachineId())),update);
+            update.push("statuses").each(m.getStatuses().toArray());
+            ops.updateOne(query(where("_id").is(m.getTaskId())),update);
         }
         ops.execute();
 
-        insertMachines.clear();
-        updateMachines.clear();
-        currentMachines.clear();
+        insertTasks.clear();
+        updateTasks.clear();
+        currentTasks.clear();
     }
 }

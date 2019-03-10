@@ -2,6 +2,8 @@ package hello.csv.readers;
 
 import hello.model.Machine;
 import hello.model.UsageInt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
@@ -17,34 +19,48 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 @Component
 public class InstanceReader extends BasicReader {
 
-    protected Map<String,List<UsageInt>> mUsages = new HashMap<>();
+    protected Map<String,Map<String,List<String>>> taskInstances = new HashMap<>();
+
+    private static Logger log = LoggerFactory.getLogger(InstanceReader.class);
 
     @Override
     public void operateEachLine(String[] line){
-        List<UsageInt> uList = null;
-        if(mUsages.containsKey(line[0])){
-            uList = mUsages.get(line[0]);
+        Map<String,List<String>> instanceUsage = null;
+        if(taskInstances.containsKey(line[2]+","+line[1])){
+            instanceUsage = taskInstances.get(line[2]+","+line[1]);
         }
         else{
-            uList = new ArrayList<>(100);
+            instanceUsage = new HashMap<>();
         }
-        uList.add(new UsageInt(Integer.valueOf(line[1]),this.compactPartString(line,2,8)));
-        mUsages.put(line[0],uList);
+        List<String> usages = null;
+        if(instanceUsage.containsKey(line[0])){
+            usages = instanceUsage.get(line[0]);
+        }
+        else{
+            usages = new ArrayList<>();
+        }
+        usages.add(this.compactPartString(line,4,13));
+        instanceUsage.put(line[0],usages);
+        taskInstances.put(line[2]+","+line[1],instanceUsage);
     }
 
     @Override
     public void bulkLines(){
-        if(mUsages.isEmpty()){
+        if(taskInstances.isEmpty()){
             return;
         }
         BulkOperations ops = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED,Machine.class);
-        for(String key: mUsages.keySet()){
+        for(String key: taskInstances.keySet()){
+            log.info("For Job tasks:"+ key);
             Update update = new Update();
-            update.push("usages",mUsages.get(key).toArray());
+            Map<String,List<String>> instanceUsages = taskInstances.get(key);
+            for(String instanceName : instanceUsages.keySet()){
+                update.push("instances."+instanceName).each(instanceUsages.get(instanceName).toArray());
+            }
             ops.updateOne(query(where("_id").is(key)),update);
         }
         ops.execute();
 
-        mUsages.clear();
+        taskInstances.clear();
     }
 }
