@@ -1,2 +1,7 @@
 *.xml
+!pom.xml
 target/
+.idea/
+*.iml
+*.gz
+*.tmp
