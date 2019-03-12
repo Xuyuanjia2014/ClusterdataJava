@@ -14,12 +14,13 @@ import java.util.TreeMap;
 
 @Component
 public class BasicReader {
-    public static String batchInstance ="E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_instance.csv";
-    public static String batchTask = "E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\batch_task.csv";
-    public static String containerMeta = "E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\container_meta.csv";
-    public static String containerUsage = "E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\container_usage.csv";
-    public static String machineMeta = "E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\machine_meta.csv";
-    public static String machineUsage = "E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\machine_usage.csv";
+    public static String prefix = "E:\\benchmark\\alibaba_clusterdata2018\\alibaba_clusterdata_v2018\\";
+    public static String batchInstance =prefix+"batch_instance.csv";
+    public static String batchTask = prefix+"batch_task.csv";
+    public static String containerMeta = prefix+"container_meta.csv";
+    public static String containerUsage = prefix+"container_usage.csv";
+    public static String machineMeta = prefix+"machine_meta.csv";
+    public static String machineUsage = prefix+"machine_usage.csv";
 
     // for Machines:
 

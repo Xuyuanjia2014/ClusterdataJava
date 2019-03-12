@@ -1,48 +1,77 @@
 package hello;
 
 import hello.csv.readers.*;
-import hello.repository.MachineRepository;
 import hello.util.MongoDBHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
+	private static Logger log = LoggerFactory.getLogger(Application.class);
+
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		if(args == null || args.length == 0 || args[0] == null){
+			log.error("ClusterdataJava does not receive any paramters, exit anyway.");
+		}
+		else{
+			BasicReader.prefix = args[0];
+			SpringApplication.run(Application.class, args);
+		}
 	}
 
 
 	public void run(String... args) throws Exception {
-		//this.readMachineMeta();
-		//this.readMachineUsage();
-		//this.checkMachineUsage();
-//		this.checkTaskMap();
-//		this.readTaskMeta();
-//		this.readInstanceUsage();
-		this.readContainerMeta();
-//		this.readContainerUsage();
+		switch (args[1]){
+			case "readMachineMeta":
+				this.readMachineMeta(Integer.valueOf(args[2]));
+				break;
+			case "readMachineUsage":
+				this.readMachineUsage(Integer.valueOf(args[2]));
+				break;
+			case "checkMachineUsage()":
+				this.checkMachineUsage(args[2]);
+				break;
+			case "checkTaskMap":
+				this.checkTaskMap();
+				break;
+			case "readTaskMeta":
+				this.readTaskMeta(Integer.valueOf(args[2]));
+				break;
+			case "readInstanceUsage":
+				this.readInstanceUsage(Integer.valueOf(args[2]));
+				break;
+			case "readContainerMeta":
+				this.readContainerMeta(Integer.valueOf(args[2]));
+				break;
+			case "readContainerUsage":
+				this.readContainerUsage(Integer.valueOf(args[2]));
+				break;
+			default:
+				log.error("Wrong Operation:"+args[1] + " and ClusterdataJava will exit soon.");
+				break;
+		}
 	}
 
-	private void readMachineMeta(){
+	private void readMachineMeta(int bulkCount){
+		//17592
 		BasicReader br = ApplicationContextProvider.getBean(MachineMetaReader.class);
-		br.readFile(BasicReader.machineMeta,17592);
+		br.readFile(BasicReader.machineMeta,bulkCount);
 	}
 
-	private void readMachineUsage(){
+	private void readMachineUsage(int bulkCount){
 		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
-		br.readFile(BasicReader.machineUsage,5000000);
+		br.readFile(BasicReader.machineUsage,bulkCount);
 	}
 
-	private void checkMachineUsage(){
+	private void checkMachineUsage(String mid){
 		MongoDBHelper mh = ApplicationContextProvider.getBean(MongoDBHelper.class);
 		//m_2123
-		mh.findOneMachines("m_2151");
+		mh.findOneMachines(mid);
 	}
 
 	private void checkTaskMap(){
@@ -51,23 +80,23 @@ public class Application implements CommandLineRunner {
 		mh.addTaskMap();
 	}
 
-	private void readTaskMeta(){
+	private void readTaskMeta(int bulkCount){
 		BasicReader br = ApplicationContextProvider.getBean(TaskMetaReader.class);
-		br.readFile(BasicReader.batchTask,1000000);
+		br.readFile(BasicReader.batchTask,bulkCount);
 	}
 
-	private void readInstanceUsage(){
+	private void readInstanceUsage(int bulkCount){
 		BasicReader br = ApplicationContextProvider.getBean(InstanceReader.class);
-		br.readFile(BasicReader.batchInstance,5000000);
+		br.readFile(BasicReader.batchInstance,bulkCount);
 	}
 
-	private void readContainerMeta(){
+	private void readContainerMeta(int bulkCount){
 		BasicReader br = ApplicationContextProvider.getBean(ContainerMetaReader.class);
-		br.readFile(BasicReader.containerMeta,100000);
+		br.readFile(BasicReader.containerMeta,bulkCount);
 	}
 
-	private void readContainerUsage(){
+	private void readContainerUsage(int bulkCount){
 		BasicReader br = ApplicationContextProvider.getBean(ContainerUsageReader.class);
-		br.readFile(BasicReader.containerUsage,5000000);
+		br.readFile(BasicReader.containerUsage,bulkCount);
 	}
 }
