@@ -75,6 +75,8 @@ public class BasicReader {
 
     private static Logger log = LoggerFactory.getLogger(BasicReader.class);
 
+    public static int lLengh = 8;
+
 
     public void operateEachLine(String[] line){
 
@@ -90,10 +92,20 @@ public class BasicReader {
 
     protected String compactPartString(String[] line, int s, int e){
         StringBuffer sb = new StringBuffer("");
-        for(int i= s;i<e;i++){
-            sb.append(line[i]+",");
+        try {
+            for(int i= s;i<e;i++){
+                sb.append(line[i]+",");
+            }
+            sb.append(line[e]);
+        }catch (Exception ex){
+            StringBuffer sb2 = new StringBuffer();
+            for(String temp: line){
+                sb2.append(temp+",");
+            }
+            System.out.println(sb2.toString());
+            ex.printStackTrace();
         }
-        sb.append(line[e]);
+
         return sb.toString();
     }
 
@@ -104,7 +116,11 @@ public class BasicReader {
             BufferedReader bf = new BufferedReader(fr);
             String str;
             while ((str = bf.readLine()) != null) {
-                operateEachLine(str.split(","));
+                String[] lines = str.split(",");
+                if(lines.length !=lLengh){
+                    continue;
+                }
+                operateEachLine(lines);
                 size++;
                 if(size%bulkCount == 0){
                     bulkLines();

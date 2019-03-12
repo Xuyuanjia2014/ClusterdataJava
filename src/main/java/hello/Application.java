@@ -1,8 +1,6 @@
 package hello;
 
-import hello.csv.readers.BasicReader;
-import hello.csv.readers.MachineMetaReader;
-import hello.csv.readers.MachineUsageReader;
+import hello.csv.readers.*;
 import hello.repository.MachineRepository;
 import hello.util.MongoDBHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +22,10 @@ public class Application implements CommandLineRunner {
 		//this.readMachineMeta();
 		//this.readMachineUsage();
 		//this.checkMachineUsage();
-		this.checkTaskMap();
+//		this.checkTaskMap();
 //		this.readTaskMeta();
 //		this.readInstanceUsage();
-//		this.readContainerMeta();
+		this.readContainerMeta();
 //		this.readContainerUsage();
 	}
 
@@ -54,22 +52,22 @@ public class Application implements CommandLineRunner {
 	}
 
 	private void readTaskMeta(){
-		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
-		br.readFile(BasicReader.batchTask,100000);
+		BasicReader br = ApplicationContextProvider.getBean(TaskMetaReader.class);
+		br.readFile(BasicReader.batchTask,1000000);
 	}
 
 	private void readInstanceUsage(){
-		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
+		BasicReader br = ApplicationContextProvider.getBean(InstanceReader.class);
 		br.readFile(BasicReader.batchInstance,5000000);
 	}
 
 	private void readContainerMeta(){
-		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
+		BasicReader br = ApplicationContextProvider.getBean(ContainerMetaReader.class);
 		br.readFile(BasicReader.containerMeta,100000);
 	}
 
 	private void readContainerUsage(){
-		BasicReader br = ApplicationContextProvider.getBean(MachineUsageReader.class);
+		BasicReader br = ApplicationContextProvider.getBean(ContainerUsageReader.class);
 		br.readFile(BasicReader.containerUsage,5000000);
 	}
 }

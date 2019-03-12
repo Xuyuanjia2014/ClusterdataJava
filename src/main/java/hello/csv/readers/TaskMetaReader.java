@@ -25,20 +25,22 @@ public class TaskMetaReader extends BasicReader {
     public void operateEachLine(String[] line){
         Task t = null;
         if(currentTasks.containsKey(line[3]+","+line[0])){
-            t= currentTasks.get(line[0]);
+            t= currentTasks.get(line[3]+","+line[0]);
         }
         else{
             t = new Task();
             t.setInsNum(Integer.valueOf(line[1]));
+            t.setPlanCpu(Double.valueOf(line[7]));
+            t.setPlanMem(Double.valueOf(line[8]));
+            t.setStartTIme(Double.valueOf(line[5]));
+            t.setEndTime(Double.valueOf(line[6]));
             t.setTaskId(line[3]+","+line[0]);
             t.setTaskType(line[2]);
             List<String> sta = new ArrayList<>();
-            sta.add(this.compactPartString(line,4,8));
             t.setStatuses(sta);
             this.currentTasks.put(t.getTaskId(),t);
-            return;
         }
-        t.getStatuses().add(this.compactPartString(line,4,8));
+        //t.getStatuses().add(line[4]);
     }
 
     @Override
@@ -63,13 +65,16 @@ public class TaskMetaReader extends BasicReader {
         }
         for(Task m: updateTasks){
             Update update = new Update();
-            update.push("statuses").each(m.getStatuses().toArray());
+            update.set("startTIme",m.getStartTIme());
+            update.set("endTIme",m.getEndTime());
+            update.set("planCpu",m.getPlanCpu());
+            update.set("planMem",m.getPlanMem());
             ops.updateOne(query(where("_id").is(m.getTaskId())),update);
         }
         ops.execute();
 
         insertTasks.clear();
-        updateTasks.clear();
+        //updateTasks.clear();
         currentTasks.clear();
     }
 }

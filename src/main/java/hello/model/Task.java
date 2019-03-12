@@ -20,6 +20,15 @@ public class Task {
     @Field
     private Map<String,List<String>> instances;
 
+    @Field
+    private Double startTIme;
+    @Field
+    private Double endTime;
+    @Field
+    private Double planCpu;
+    @Field
+    private Double planMem;
+
     public Task(){
         this.statuses = new ArrayList<>();
         this.instances = new HashMap<>();
@@ -63,5 +72,37 @@ public class Task {
 
     public void setTaskType(String taskType) {
         this.taskType = taskType;
+    }
+
+    public Double getStartTIme() {
+        return startTIme;
+    }
+
+    public void setStartTIme(Double startTIme) {
+        this.startTIme = startTIme;
+    }
+
+    public Double getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Double endTime) {
+        this.endTime = endTime;
+    }
+
+    public Double getPlanCpu() {
+        return planCpu;
+    }
+
+    public void setPlanCpu(Double planCpu) {
+        this.planCpu = planCpu;
+    }
+
+    public Double getPlanMem() {
+        return planMem;
+    }
+
+    public void setPlanMem(Double planMem) {
+        this.planMem = planMem;
     }
 }

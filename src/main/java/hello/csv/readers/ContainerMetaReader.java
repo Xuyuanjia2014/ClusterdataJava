@@ -29,12 +29,12 @@ public class ContainerMetaReader extends BasicReader {
         }
         else{
             container = new Container();
-            container.setAppDu(line[2]);
+            container.setAppDu(line[3]);
             container.setContainerId(line[0]);
             container.setStatuses(new ArrayList<>());
             this.currentContainers.put(line[0],container);
         }
-        container.getStatuses().add(container.new CStatus(Integer.valueOf(line[3]),line[7],this.compactPartString(line,4,6),line[1]));
+        container.getStatuses().add(container.new CStatus(Integer.valueOf(line[2]),line[4],this.compactPartString(line,5,7),line[1]));
     }
 
     @Override
