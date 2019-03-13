@@ -32,15 +32,10 @@ public class TaskMetaReader extends BasicReader {
             t.setInsNum(Integer.valueOf(line[1]));
             t.setPlanCpu(Double.valueOf(line[7]));
             t.setPlanMem(Double.valueOf(line[8]));
-            t.setStartTIme(Double.valueOf(line[5]));
-            t.setEndTime(Double.valueOf(line[6]));
             t.setTaskId(line[3]+","+line[0]);
             t.setTaskType(line[2]);
-            List<String> sta = new ArrayList<>();
-            t.setStatuses(sta);
             this.currentTasks.put(t.getTaskId(),t);
         }
-        //t.getStatuses().add(line[4]);
     }
 
     @Override
@@ -65,8 +60,6 @@ public class TaskMetaReader extends BasicReader {
         }
         for(Task m: updateTasks){
             Update update = new Update();
-            update.set("startTIme",m.getStartTIme());
-            update.set("endTIme",m.getEndTime());
             update.set("planCpu",m.getPlanCpu());
             update.set("planMem",m.getPlanMem());
             ops.updateOne(query(where("_id").is(m.getTaskId())),update);

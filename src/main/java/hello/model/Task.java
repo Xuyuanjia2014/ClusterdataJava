@@ -15,23 +15,13 @@ public class Task {
     private int insNum;
     @Field
     private String taskType;
-    @Field
-    private List<String> statuses;
-    @Field
-    private Map<String,List<String>> instances;
 
-    @Field
-    private Double startTIme;
-    @Field
-    private Double endTime;
     @Field
     private Double planCpu;
     @Field
     private Double planMem;
 
     public Task(){
-        this.statuses = new ArrayList<>();
-        this.instances = new HashMap<>();
     }
 
     public String getTaskId() {
@@ -42,21 +32,6 @@ public class Task {
         this.taskId = taskId;
     }
 
-    public List<String> getStatuses() {
-        return statuses;
-    }
-
-    public void setStatuses(List<String> statuses) {
-        this.statuses = statuses;
-    }
-
-    public Map<String, List<String>> getInstances() {
-        return instances;
-    }
-
-    public void setInstances(Map<String, List<String>> instances) {
-        this.instances = instances;
-    }
 
     public int getInsNum() {
         return insNum;
@@ -72,22 +47,6 @@ public class Task {
 
     public void setTaskType(String taskType) {
         this.taskType = taskType;
-    }
-
-    public Double getStartTIme() {
-        return startTIme;
-    }
-
-    public void setStartTIme(Double startTIme) {
-        this.startTIme = startTIme;
-    }
-
-    public Double getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Double endTime) {
-        this.endTime = endTime;
     }
 
     public Double getPlanCpu() {
