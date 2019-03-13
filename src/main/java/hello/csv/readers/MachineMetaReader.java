@@ -37,7 +37,7 @@ public class MachineMetaReader extends BasicReader {
             m.setMachineId(line[0]);
             this.currentMachines.put(line[0],m);
         }
-        m.getStatuses().add(new StatusInt(Integer.valueOf(line[1]),line[6]));
+        //m.getStatuses().add(new StatusInt(Integer.valueOf(line[1]),line[6]));
     }
 
     @Override
@@ -62,7 +62,7 @@ public class MachineMetaReader extends BasicReader {
         }
         for(Machine m: updateMachines){
             Update update = new Update();
-            update.push("statuses",m.getStatuses().toArray());
+           // update.push("statuses").each(m.getStatuses().toArray());
             ops.updateOne(query(where("_id").is(m.getMachineId())),update);
         }
         ops.execute();

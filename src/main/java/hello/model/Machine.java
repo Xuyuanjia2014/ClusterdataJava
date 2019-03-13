@@ -18,13 +18,16 @@ public class Machine {
 
     //map in array key is timestamp:
 
-    private List<StatusInt> statuses;
+    private List<Double> cpuUsage;
     
-    private List<UsageInt> usages;
+    private List<Double> memUsage;
+
+    private List<Double> containerPlan;
+
+    private List<Double> TaskPlan;
 
     public Machine(){
-        this.statuses = new ArrayList<>();
-        this.usages = new ArrayList<>();
+
     }
 
     public String getMachineId() {
@@ -67,19 +70,35 @@ public class Machine {
         this.memSize = memSize;
     }
 
-    public List<StatusInt> getStatuses() {
-        return statuses;
+    public List<Double> getCpuUsage() {
+        return cpuUsage;
     }
 
-    public void setStatuses(List<StatusInt> statuses) {
-        this.statuses = statuses;
+    public void setCpuUsage(List<Double> cpuUsage) {
+        this.cpuUsage = cpuUsage;
     }
 
-    public List<UsageInt> getUsages() {
-        return usages;
+    public List<Double> getMemUsage() {
+        return memUsage;
     }
 
-    public void setUsages(List<UsageInt> usages) {
-        this.usages = usages;
+    public void setMemUsage(List<Double> memUsage) {
+        this.memUsage = memUsage;
+    }
+
+    public List<Double> getContainerPlan() {
+        return containerPlan;
+    }
+
+    public void setContainerPlan(List<Double> containerPlan) {
+        this.containerPlan = containerPlan;
+    }
+
+    public List<Double> getTaskPlan() {
+        return TaskPlan;
+    }
+
+    public void setTaskPlan(List<Double> taskPlan) {
+        TaskPlan = taskPlan;
     }
 }
