@@ -38,16 +38,10 @@ public class MongoDBHelper {
 
     public void checkOneMachine(String machine_id){
         Machine ms = this.mongoTemplate.findOne(query(where("_id").is(machine_id)),Machine.class,"machine");
-        if(ms !=null ){
-            log.info("statuses' size: "+ms.getStatuses().size()+"Usages' size:"+ms.getUsages().size());
-        }
     }
 
     public void checkMachines(String machine_id){
         List<Machine> ms = this.mr.findByMachineId(machine_id);
-        if(ms !=null && ms.size() > 0){
-            log.info("statuses' size: "+ms.get(0).getStatuses().size()+"Usages' size:"+ms.get(0).getUsages().size());
-        }
     }
 
     public void findOneMachines(String machine_id){
@@ -65,7 +59,6 @@ public class MongoDBHelper {
         for(int i =0;i<10;i++){
             statuses.add("sss"+i);
         }
-        t.setStatuses(statuses);
         Map<String,List<String>> ins = new HashMap<>();
         for(int i =0;i<5;i++){
             List<String> instanceUsage = new ArrayList<>();
@@ -74,7 +67,6 @@ public class MongoDBHelper {
             }
             ins.put("instance"+i,instanceUsage);
         }
-        t.setInstances(ins);
         mongoTemplate.insert(t);
     }
 
