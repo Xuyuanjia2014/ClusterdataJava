@@ -1,7 +1,9 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://127.0.0.1:27017/admin
+      uri: mongodb://172.17.12.61:27018/admin
+      password: Onceas2019
+      username: admin
 logging:
 #  path: E:\\codes writing
   file: clusterdata-java.log
