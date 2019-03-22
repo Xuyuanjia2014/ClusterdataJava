@@ -19,6 +19,7 @@ public class Application implements CommandLineRunner {
 			log.error("ClusterdataJava does not receive any paramters, exit anyway.");
 		}
 		else{
+			log.info("Read path:"+args[0]);
 			BasicReader.prefix = args[0];
 			SpringApplication.run(Application.class, args);
 		}
