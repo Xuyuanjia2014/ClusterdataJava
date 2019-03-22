@@ -6,5 +6,5 @@ logging:
 #  path: E:\\codes writing
   file: clusterdata-java.log
 debug: false
-      password: guest
-      username: guest
+#      password: guest
+#      username: guest
